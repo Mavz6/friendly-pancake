@@ -1,0 +1,47 @@
+import random
+
+def generate_code(length):
+    code = ""
+    characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    for _ in range(length):
+        code += random.choice(characters)
+    return code
+
+def check_guess(guess, code):
+    if guess == code:
+        return True
+    match_count = 0
+    for i in range(len(guess)):
+        if guess[i] == code[i]:
+            match_count += 1
+    print("Matching characters:", match_count)
+    return False
+
+if __name__ == "__main__":
+    code_length = 4
+    max_attempts = 10
+
+    secret_code = generate_code(code_length)
+    print("Welcome to Code Hunt!")
+    print("Can you guess the secret code in", max_attempts, "attempts?")
+    print("The code consists of", code_length, "characters (uppercase letters and digits).")
+
+    attempts = 0
+    while attempts < max_attempts:
+        guess = input("Enter your guess: ").upper()
+        if len(guess) != code_length:
+            print("Invalid guess! Guess should be", code_length, "characters long.")
+            continue
+
+        attempts += 1
+        if check_guess(guess, secret_code):
+            print("Congratulations! You guessed the code correctly.")
+            print("You found the code in", attempts, "attempts.")
+            break
+
+        remaining_attempts = max_attempts - attempts
+        print("Wrong guess! You have", remaining_attempts, "attempts remaining.")
+
+    if attempts == max_attempts:
+        print("Game Over! You couldn't guess the secret code.")
+        print("The secret code was:", secret_code)
